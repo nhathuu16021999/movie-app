@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { getApiConfiguration } from './store/homeSlice';
 import { fetchDataFromApi } from './utils/api';
 
-// import Footer from './components/footer/Footer';
+import Footer from './components/footer/Footer';
 import Header from './components/header/Header';
 import PageNotFound from './pages/404/PageNotFound';
 import Details from './pages/details/Details';
@@ -17,14 +17,8 @@ function App() {
   const { url } = useSelector((state) => state.home);
   console.log(url);
 
-  useEffect(() => {
-    fetchApiConfig();
-  }, []);
-
-  const fetchApiConfig = () => {
+  const fetchApiConfig = useCallback(() => {
     fetchDataFromApi('/configuration').then((res) => {
-      console.log(res);
-
       const url = {
         backdrop: res.images.secure_base_url + 'original',
         poster: res.images.secure_base_url + 'original',
@@ -32,7 +26,12 @@ function App() {
       };
       dispatch(getApiConfiguration(url));
     });
-  };
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchApiConfig();
+  }, [fetchApiConfig]);
+
   return (
     <BrowserRouter>
       <Header />
@@ -43,7 +42,7 @@ function App() {
         <Route path='/explore/:mediaType' element={<Explore />} />
         <Route path='*' element={<PageNotFound />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </BrowserRouter>
   );
 }
