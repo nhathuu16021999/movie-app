@@ -14,7 +14,6 @@ import SearchResult from './pages/searchResult/SearchResult';
 
 function App() {
   const dispatch = useDispatch();
-  // const { url } = useSelector((state) => state.home);
 
   const fetchApiConfig = useCallback(() => {
     fetchDataFromApi('/configuration').then((res) => {
