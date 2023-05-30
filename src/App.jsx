@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { getApiConfiguration, getGenres } from './store/homeSlice';
 import { fetchDataFromApi } from './utils/api';
@@ -14,8 +14,7 @@ import SearchResult from './pages/searchResult/SearchResult';
 
 function App() {
   const dispatch = useDispatch();
-  const { url } = useSelector((state) => state.home);
-  console.log(url);
+  // const { url } = useSelector((state) => state.home);
 
   const fetchApiConfig = useCallback(() => {
     fetchDataFromApi('/configuration').then((res) => {
@@ -38,7 +37,6 @@ function App() {
     });
 
     const data = await Promise.all(promises);
-    console.log(data);
     data.map(({ genres }) => {
       return genres.map((item) => (allGenres[item.id] = item));
     });

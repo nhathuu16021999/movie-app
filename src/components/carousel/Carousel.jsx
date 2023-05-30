@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import './style.scss';
 import {
   BsFillArrowLeftCircleFill,
@@ -14,7 +14,7 @@ import dayjs from 'dayjs';
 import CircleRating from '../circleRating/CircleRating';
 import Genres from '../genres/Genres';
 
-const Carousel = ({ data, loading }) => {
+const Carousel = ({ data, loading, endPoint, title }) => {
   const carouselContainer = useRef();
   const { url } = useSelector((state) => state.home);
   const navigate = useNavigate();
@@ -47,6 +47,7 @@ const Carousel = ({ data, loading }) => {
   return (
     <div className='carousel'>
       <ContentWrapper>
+        {title && <div className='carouselTitle'>{title}</div>}
         <BsFillArrowLeftCircleFill
           className='carouselLeftNav arrow'
           onClick={() => navigation('left')}
@@ -65,7 +66,9 @@ const Carousel = ({ data, loading }) => {
                 <div
                   key={item.id}
                   className='carouselItem'
-                  onClick={() => navigate(`/${item.media_type}/${item.id}`)}
+                  onClick={() =>
+                    navigate(`/${item.media_type || endPoint}/${item.id}`)
+                  }
                 >
                   <div className='posterBlock'>
                     <Img src={posterUrl} />
@@ -73,7 +76,7 @@ const Carousel = ({ data, loading }) => {
                     <Genres data={item.genre_ids.slice(0, 2)} />
                   </div>
                   <div className='textBlock'>
-                    <span className='title'>{item.title || item.name}</span>
+                    <span className='title'>{item.title || endPoint}</span>
                     <span className='date'>
                       {dayjs(item.release_Date).format('MMM D, YYYY')}
                     </span>
