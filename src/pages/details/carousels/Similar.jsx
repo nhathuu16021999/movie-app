@@ -12,7 +12,7 @@ const Similar = ({ mediaType, id }) => {
       title={title}
       data={data?.results}
       loading={loading}
-      endpoint={mediaType}
+      endPoint={mediaType}
     />
   );
 };

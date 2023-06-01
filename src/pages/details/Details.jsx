@@ -9,7 +9,6 @@ import VideosSection from './videosSection/VideosSection';
 
 const Details = () => {
   const { mediaType, id } = useParams();
-  console.log({ mediaType });
   const { data, loading } = useFetch(`/${mediaType}/${id}/videos`);
   const { data: credits, loading: creditsLoading } = useFetch(
     `/${mediaType}/${id}/credits`
